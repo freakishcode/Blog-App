@@ -1,0 +1,14 @@
+.Error-msg {
+  text-align: center;
+  padding: 1rem;
+
+  header {
+    margin-bottom: 1rem;
+    color: red;
+  }
+
+  footer {
+    margin-top: 1rem;
+    color: gray;
+  }
+}

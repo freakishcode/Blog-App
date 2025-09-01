@@ -1,0 +1,28 @@
+{
+  "admins": [
+    {
+      "id": "10",
+      "name": "Ahmed Bakare",
+      "email": "ekelner9@cnet.com",
+      "password": "3368456896"
+    },
+    {
+      "id": "11",
+      "name": "Debbie",
+      "email": "drogeona@sina.com.cn",
+      "password": "9568354357"
+    },
+    {
+      "id": "12",
+      "name": "Lola Bakare",
+      "email": "mswinyardb@live.com",
+      "password": "1524705048"
+    },
+    {
+      "id": "6ac4",
+      "name": "test bakare",
+      "email": "bakare@gmail.com",
+      "password": "1999999995"
+    }
+  ]
+}

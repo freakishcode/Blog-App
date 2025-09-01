@@ -1,0 +1,81 @@
+{
+  "users": [
+    {
+      "id": "10",
+      "full_name": "Evanne",
+      "email": "ekelner9@cnet.com",
+      "gender": "Female",
+      "phone": "336-845-6896"
+    },
+    {
+      "id": "11",
+      "full_name": "Debbie",
+      "email": "drogeona@sina.com.cn",
+      "gender": "Female",
+      "phone": "956-835-4357"
+    },
+    {
+      "id": "12",
+      "full_name": "Marchelle",
+      "email": "mswinyardb@live.com",
+      "gender": "Female",
+      "phone": "152-470-5048"
+    },
+    {
+      "id": "13",
+      "full_name": "Aymer",
+      "email": "abarfieldc@ucsd.edu",
+      "gender": "Bigender",
+      "phone": "139-576-7904"
+    },
+    {
+      "id": "14",
+      "full_name": "Jonell",
+      "email": "jfavelad@umich.edu",
+      "gender": "Female",
+      "phone": "516-368-4649"
+    },
+    {
+      "id": "15",
+      "full_name": "Daniel",
+      "email": "darmsdene@weibo.com",
+      "gender": "Male",
+      "phone": "791-415-7698"
+    },
+    {
+      "id": "17",
+      "full_name": "Erie",
+      "email": "emocklerg@csmonitor.com",
+      "gender": "Male",
+      "phone": "437-538-3215"
+    },
+    {
+      "id": "18",
+      "full_name": "Michell",
+      "email": "mbenoisth@lulu.com",
+      "gender": "Female",
+      "phone": "778-162-4018"
+    },
+    {
+      "id": "19",
+      "full_name": "Brietta",
+      "email": "bziemei@harvard.edu",
+      "gender": "Agender",
+      "phone": "458-769-5077"
+    },
+    {
+      "id": "20",
+      "full_name": "Alla",
+      "email": "awadwellj@independent.co.uk",
+      "gender": "Non-binary",
+      "phone": "708-722-5073"
+    },
+    {
+      "id": "8edd",
+      "gender": "Male",
+      "full_name": "damilola bakare",
+      "email": "ajibolabakare@gmail.com",
+      "phone": "09015677677"
+    }
+  ]
+}

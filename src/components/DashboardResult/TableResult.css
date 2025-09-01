@@ -1,0 +1,157 @@
+/* TableResult.css */
+
+/* ✅ Container */
+.TableContainer {
+  width: 100%;
+  margin: 20px auto;
+  padding: 15px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  overflow-x: auto; /* Makes table scrollable on small screens */
+}
+
+.TableContainer h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #333;
+}
+
+/* ===========================
+   Table + Search Bar Header
+   =========================== */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap; /* ✅ responsive for small screens */
+  gap: 12px;
+}
+
+.table-header h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* ✅ Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* ensures table doesn't break on small screens */
+}
+
+thead {
+  background-color: #1976d2;
+  color: #fff;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.95rem;
+}
+
+tbody {
+  color: #333;
+}
+
+/* ✅ Zebra striping */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #f1f7ff;
+  transition: background 0.3s ease;
+}
+
+/* ✅ Actions cell */
+.Action_Btn {
+  display: flex;
+  gap: 10px;
+}
+
+/* ✅ Buttons (override Material UI spacing issue) */
+.table_btn {
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  text-transform: none;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+/* === No Results Table Row === */
+.no-results {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  background-color: rgb(236, 82, 82);
+  padding: 1.2rem;
+  border-radius: 6px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Icon next to text */
+.no-results-icon {
+  font-size: 1.4rem;
+  color: #fff;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Smooth fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ Responsive adjustments */
+@media (max-width: 768px) {
+  .TableContainer {
+    padding: 10px;
+  }
+
+  table {
+    min-width: unset; /* let table shrink on small devices */
+    font-size: 0.9rem;
+  }
+
+  th,
+  td {
+    padding: 8px 10px;
+  }
+
+  /* Stack buttons vertically on small screens */
+  .Action_Btn {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .table_btn {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  .no-results {
+    font-size: 0.9rem;
+    padding: 1rem;
+  }
+
+  .no-results-icon {
+    font-size: 1.2rem;
+    margin-right: 6px;
+  }
+}

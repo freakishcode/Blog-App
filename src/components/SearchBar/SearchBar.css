@@ -1,0 +1,36 @@
+.SearchBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f9f9f9;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: box-shadow 0.2s ease;
+}
+
+.SearchBar:focus-within {
+  box-shadow: 0 0 0 2px #007bff44;
+}
+
+.SearchBar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  padding: 6px;
+  color: black;
+}
+
+.SearchBar button,
+.SearchBar .MuiIconButton-root {
+  color: #555;
+}
+
+/* ✅ Mobile tweak */
+@media (max-width: 600px) {
+  .SearchBar {
+    width: 100%;
+  }
+}

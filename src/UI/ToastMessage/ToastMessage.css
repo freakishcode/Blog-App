@@ -1,0 +1,52 @@
+.toasts-message {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* toast card */
+.toast {
+  width: 330px;
+  background-color: green;
+  color: #fff;
+
+  border-radius: 5px;
+  padding: 10px 20px;
+
+  position: relative;
+  top: 10px;
+  right: 10px;
+  box-shadow: 0px 3px 2px 2px black;
+
+  animation: slideInToast;
+  animation-duration: 0.35s;
+}
+
+@keyframes slideInToast {
+  0% {
+    transform: translateX(100%);
+  }
+  60% {
+    transform: translateX(-15%);
+  }
+  80% {
+    transform: translateX(5%);
+  }
+  80% {
+    transform: translateX(0);
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 6px;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+}

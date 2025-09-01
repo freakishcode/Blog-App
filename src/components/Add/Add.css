@@ -1,0 +1,102 @@
+/* === Add.css === */
+
+/* Container */
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Avatar with gradient */
+.MuiAvatar-root {
+  background: linear-gradient(135deg, #2196f3, #21cbf3);
+  color: #fff;
+  width: 60px !important;
+  height: 60px !important;
+  margin-bottom: 0.5rem;
+  box-shadow: 0px 3px 10px rgba(33, 150, 243, 0.4);
+}
+
+.MuiAvatar-root:hover {
+  transform: scale(1.08);
+  box-shadow: 0 5px 18px rgba(66, 165, 245, 0.65);
+}
+
+/* Heading */
+.container h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 1rem 0;
+  color: #333;
+}
+
+/* Divider line */
+.line {
+  height: 2px;
+  width: 60%;
+  margin: 1rem auto 2rem;
+  background: linear-gradient(90deg, #2196f3, #21cbf3);
+  border-radius: 2px;
+}
+
+/* Error messages */
+span {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #d32f2f; /* MUI error red */
+  margin-top: 4px;
+  margin-left: 4px;
+  display: block;
+}
+
+/* Form fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Buttons container */
+.container .MuiBox-root {
+  margin-top: 1rem;
+}
+
+.MuiButton-root:hover {
+  transform: scale(1.08);
+  box-shadow: 0 5px 18px rgba(110, 130, 146, 0.65);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .container h1 {
+    font-size: 1.2rem;
+  }
+
+  .line {
+    width: 70%;
+  }
+
+  .container .MuiBox-root {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .container .MuiButton-root {
+    width: 100%;
+  }
+}
