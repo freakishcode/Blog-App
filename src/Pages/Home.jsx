@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { AppContext } from "../Context/Context";
 import useDebounce from "../Hooks/useDebounce";
@@ -17,6 +17,12 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
+
+const navLinks = [
+  { label: "Home", to: "/" },
+  { label: "About", to: "/About" },
+  { label: "Help", to: "/Help" },
+];
 
 function Home() {
   // ✅ React Query handles fetching, caching, and error states
@@ -43,11 +49,23 @@ function Home() {
           </Typography>
 
           <Stack direction='row' spacing={3}>
-            <Button component={Link} to='/' color='inherit'>
-              Home
-            </Button>
-            <Button color='inherit'>About</Button>
-            <Button color='inherit'>Contact</Button>
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                style={({ isActive }) => ({
+                  textDecoration: "none",
+                  color: isActive ? "#1976d2" : "#333",
+                  fontWeight: isActive ? 700 : 500,
+                  fontSize: "1.1rem",
+                  borderBottom: isActive ? "2px solid #1976d2" : "none",
+                  padding: "6px 0",
+                  transition: "color 0.2s",
+                })}
+              >
+                {link.label}
+              </NavLink>
+            ))}
           </Stack>
 
           <Stack direction='row' spacing={2}>

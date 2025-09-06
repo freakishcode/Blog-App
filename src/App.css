@@ -29,11 +29,6 @@
   --gradient3: linear-gradient(45deg, #ff0, #f0f, #00f, #0f0);
 }
 
-.App {
-  background-color: var(--dark-bg-color2);
-  min-height: 600px;
-}
-
 .ErrorBoundary,
 .loading {
   position: absolute;
