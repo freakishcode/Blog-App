@@ -1,20 +1,35 @@
-Title: C.R.U.D in React js
+# CRUD-React-PHP
 
-Description: Project That showcase the usage of Create, Read, Update & Delete API in react
+A project demonstrating **Create, Read, Update, and Delete (CRUD)** operations in React, using Material UI for styling and a PHP/MySQL backend (or JSON Server for mock API).
 
-Dependencies Used:
+---
 
-1. Material UI and Icons
-2. React Hook Form Library
-3. Yup library for form validation
-4. @hookform/resolvers for 2 and 3 connection
-5. React-router-dom
-6. react-error-boundary for component Error control
-7. Axios : npm i axios
-8. json-server : npm i -g json-server, json-server -p 5775 -w ./data/UsersData.json
+## 🚀 Features
 
-### Link
+- Add, edit, delete, and view user data
+- Form validation with React Hook Form & Yup
+- Error boundaries for robust UI
+- Responsive Material UI components
+- Routing with React Router
 
-- Vite - https://vitejs.dev/guide/#scaffolding-your-first-vite-project
-- Material UI - https://mui.com/material-ui/react-checkbox/
-- React-Hook-Form - https://react-hook-form.com/get-started/#SchemaValidation
+---
+
+## 📦 Dependencies
+
+- [Material UI](https://mui.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Yup](https://github.com/jquense/yup)
+- [@hookform/resolvers](https://react-hook-form.com/get-started/#SchemaValidation)
+- [React Router DOM](https://reactrouter.com/)
+- [react-error-boundary](https://github.com/bvaughn/react-error-boundary)
+- [Axios](https://axios-http.com/)
+- [json-server](https://github.com/typicode/json-server) (for mock API)
+
+---
+
+## ⚙️ Setup & Usage
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
