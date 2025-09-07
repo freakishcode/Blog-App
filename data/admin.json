@@ -23,6 +23,12 @@
       "name": "test bakare",
       "email": "bakare@gmail.com",
       "password": "1999999995"
+    },
+    {
+      "id": "e5ea",
+      "fullName": "ahmed olayemi bakare",
+      "email": "bakareahmed791@gmail.com",
+      "password": "555555"
     }
   ]
 }

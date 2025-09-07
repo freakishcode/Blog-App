@@ -24,13 +24,13 @@
     background: #fff;
     box-shadow: 5px 6px 8px black;
   }
+}
 
-  span {
-    color: red;
-  }
+.loadingState {
+  color: blue;
+}
 
-  .error {
-    color: red;
-    text-align: center;
-  }
+.error {
+  color: red;
+  text-align: center;
 }

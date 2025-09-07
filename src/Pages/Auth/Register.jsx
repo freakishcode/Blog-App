@@ -1,7 +1,7 @@
 // Pages/Auth/Register.jsx
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { postForm } from "../../api/API";
+import { postForm } from "../../api/RegLog_api";
 
 // React Hook Form + Yup
 import { useForm } from "react-hook-form";
@@ -68,8 +68,8 @@ const Register = () => {
           <TextField
             label='Full Name'
             fullWidth
-            {...register("name")}
-            error={!!errors.name}
+            {...register("fullName")}
+            error={!!errors.fullName}
             helperText={errors.name?.message}
           />
 

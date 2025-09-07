@@ -1,9 +1,9 @@
 import axios from "axios";
 // Mine: personally created json file data
-import { BASE_URL, Admin_URL } from "../../data/BaseURL";
+import { Admin_URL } from "../../data/BaseURL";
 
 // !! FOR PHP BACKEND API
-export const API_BASE = "http://localhost/React+PHP/PHP";
+export const API_BASE = "http://localhost/PHP";
 
 // REGISTER USER
 export const registerUser = async (userData) => {
@@ -90,8 +90,13 @@ export const checkEmailExists = async (email) => {
   return res.data.length > 0;
 };
 
-// api/fetchUsers.js
-export const fetchUsers = async () => {
-  const res = await axios.get(BASE_URL);
-  return res.data; // return users list
+/* *
+ * Fetch admin(s) by email
+ * @param {string} email - The email address to search for
+ * @returns {Promise<Array>} Array of admins matching the email
+ */
+export const fetchAdminByEmail = async (email) => {
+  if (!email) return [];
+  const res = await axios.get(`${Admin_URL}?email=${email}`);
+  return res.data;
 };

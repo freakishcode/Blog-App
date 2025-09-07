@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AppContext } from "../Context/Context";
 import useDebounce from "../Hooks/useDebounce";
 import TableResult from "../components/DashboardResult/TableResult";
-import { fetchUsers } from "../api/API";
+import { fetchUsers } from "../api/Crud_api";
 
 // Material UI
 import {

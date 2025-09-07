@@ -1,6 +1,7 @@
 // validation/authValidation.js
 import * as yup from "yup";
 
+// Validation schema for login form
 export const loginSchema = yup.object().shape({
   email: yup
     .string()
@@ -12,8 +13,9 @@ export const loginSchema = yup.object().shape({
     .required("Password is required"),
 });
 
+// Validation schema for registration form
 export const registerSchema = yup.object().shape({
-  name: yup
+  fullName: yup
     .string()
     .min(2, "Name must be at least 2 characters")
     .required("Name is required"),

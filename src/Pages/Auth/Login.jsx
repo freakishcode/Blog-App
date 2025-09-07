@@ -1,17 +1,9 @@
-// Pages/Auth/Login.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-
-// Mock login API (replace with real backend endpoint later)
-import { checkEmailExists } from "../../api/API";
-
-// React Hook Form + Yup
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../validation/authValidation";
-
-// Material UI
 import {
   Box,
   Avatar,
@@ -24,12 +16,12 @@ import {
   IconButton,
   InputAdornment,
 } from "@mui/material";
-
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-
-// ✅ Toast context
 import { useToast } from "../../UI/ToastMessage/ToastContext";
+
+// ✅ Import API
+import { fetchAdminByEmail } from "../../api/RegLog_api";
 
 const Login = () => {
   const toast = useToast();
@@ -39,26 +31,38 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({ resolver: yupResolver(loginSchema) });
 
-  // ✅ Fetch users list with React Query
-  const { data: admins = [], isLoading } = useQuery({
-    queryKey: ["admins"],
-    queryFn: checkEmailExists,
+  // Watch email input
+  const email = watch("email");
+
+  // ✅ Fetch admin by email using extracted queryFn
+  const {
+    data: admins = [],
+    isLoading,
+    error,
+    isError,
+  } = useQuery({
+    queryKey: ["admin", email],
+    queryFn: () => fetchAdminByEmail(email),
+    enabled: !!email, // don’t run until email is filled
   });
 
-  // ✅ Fixed: use form data from handleSubmit
+  // ✅ Handle form submit
   const onSubmit = (formData) => {
-    const adminFound = admins.find(
-      (u) =>
-        u.email.toLowerCase() === formData.email.toLowerCase() &&
-        u.password === formData.password
-    );
+    const adminFound =
+      admins.length > 0 &&
+      admins.find(
+        (u) =>
+          u.email.toLowerCase() === formData.email.toLowerCase() &&
+          u.password === formData.password
+      );
 
     if (adminFound) {
       toast?.open("✅ Login successful!");
-      navigate("/"); // Redirect to homepage
+      navigate("/");
     } else {
       toast?.open("❌ Invalid email or password");
     }
@@ -80,7 +84,13 @@ const Login = () => {
           onSubmit={handleSubmit(onSubmit)}
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
         >
-          {/* ✅ Email */}
+          {isError && (
+            <p style={{ textAlign: "center", color: "red" }}>
+              Unable to Login due to: {error.message}
+            </p>
+          )}
+
+          {/* Email */}
           <TextField
             label='Email'
             type='email'
@@ -90,7 +100,7 @@ const Login = () => {
             helperText={errors.email?.message}
           />
 
-          {/* ✅ Password */}
+          {/* Password */}
           <TextField
             label='Password'
             type={showPassword ? "text" : "password"}
@@ -112,7 +122,7 @@ const Login = () => {
             }}
           />
 
-          {/* ✅ Submit */}
+          {/* Submit */}
           <Button
             type='submit'
             variant='contained'

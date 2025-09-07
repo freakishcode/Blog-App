@@ -1,8 +1,5 @@
 import "./Add.css";
 
-// TODO: Using AXIOS LIBRARY
-import axios from "axios";
-
 // ✅ React Query import
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -20,6 +17,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 // TODO: Accessing Toast context message
 import { useToast } from "../../UI/ToastMessage/ToastContext";
+
+import { createPost } from "../../api/Crud_api";
 
 // TODO: Material UI library
 import {
@@ -39,9 +38,6 @@ import EmailIcon from "@mui/icons-material/Email";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-
-// TODO: DATA BASE JSON
-import { BASE_URL } from "../../../data/BaseURL";
 
 function Add() {
   const toast = useToast();
@@ -72,7 +68,7 @@ function Add() {
 
   // ✅ Mutation for creating user
   const mutation = useMutation({
-    mutationFn: (newUser) => axios.post(BASE_URL, newUser),
+    mutationFn: createPost,
     onSuccess: () => {
       queryClient.invalidateQueries(["users"]); // Refresh user list
       toast?.open("User added successfully");

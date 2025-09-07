@@ -36,3 +36,12 @@ strong {
   padding: 1rem 0;
   /* background-color: yellow; */
 }
+
+.loadingState {
+  color: blue;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}

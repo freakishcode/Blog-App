@@ -1,8 +1,5 @@
 import "./Edit.css";
 
-// AXIOS
-import axios from "axios";
-
 // REACT QUERY
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -28,8 +25,8 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 
-// BASE URL
-import { BASE_URL } from "../../../data/BaseURL";
+// API functions
+import { fetchUserById, updateUserById } from "../../api/Crud_api";
 
 function Edit() {
   const { id } = useParams();
@@ -42,17 +39,15 @@ function Edit() {
     data: Values,
     isLoading,
     isError,
+    error,
   } = useQuery({
     queryKey: ["user", id],
-    queryFn: async () => {
-      const res = await axios.get(BASE_URL + id);
-      return res.data;
-    },
+    queryFn: () => fetchUserById(id),
   });
 
   // ✅ Mutation to update user
   const mutation = useMutation({
-    mutationFn: (updatedData) => axios.put(BASE_URL + id, updatedData),
+    mutationFn: (updatedData) => updateUserById(id, updatedData),
     onSuccess: () => {
       queryClient.invalidateQueries(["user", id]); // Refresh updated data
       queryClient.invalidateQueries(["users"]); // Refresh user list if exists
@@ -84,8 +79,12 @@ function Edit() {
     }));
   };
 
-  if (isLoading) return <p>Loading user details...</p>;
-  if (isError) return <p>Error fetching user details</p>;
+  if (isLoading)
+    return <p className='loadingState '>Loading user details...</p>;
+  if (isError)
+    return (
+      <p className='error'>Error fetching user details: {error.message}</p>
+    );
 
   return (
     <div className='update_container'>

@@ -17,7 +17,9 @@ import { BASE_URL } from "../../../data/BaseURL";
 
 // ✅ React Query + Axios
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
+// API functions
+import { fetchUserById } from "../../api/Crud_api";
 
 function UserDetails() {
   // parameter to target user id
@@ -26,24 +28,16 @@ function UserDetails() {
   // ✅ Fetch single user with React Query
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ["user", id],
-    queryFn: async () => {
-      const res = await axios.get(`${BASE_URL}${id}`);
-      return res.data;
-    },
+    queryFn: () => fetchUserById(id),
     enabled: !!id, // only run if id exists
   });
 
-  if (isLoading) {
-    return <p style={{ textAlign: "center", marginTop: "2rem" }}>Loading...</p>;
-  }
-
-  if (isError) {
+  if (isLoading)
+    return <p className='loadingState '>Loading user details...</p>;
+  if (isError)
     return (
-      <p style={{ textAlign: "center", marginTop: "2rem", color: "red" }}>
-        Unable to fetch user details: {error.message}
-      </p>
+      <p className='error'>Error fetching user details: {error.message}</p>
     );
-  }
 
   return (
     <Paper
