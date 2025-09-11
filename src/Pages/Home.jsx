@@ -3,7 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { AppContext } from "../Context/Context";
 import useDebounce from "../Hooks/useDebounce";
 import TableResult from "../components/DashboardResult/TableResult";
-import { fetchUsers } from "../api/Crud_api";
+
+import { ReadUsers } from "../api/Crud_api";
 
 // Material UI
 import {
@@ -33,7 +34,7 @@ function Home() {
     error,
   } = useQuery({
     queryKey: ["users"],
-    queryFn: fetchUsers,
+    queryFn: ReadUsers,
   });
 
   // Debounce search

@@ -4,6 +4,8 @@ import axios from "axios";
 // Mine: personally created json file data
 import { BASE_URL } from "../../data/BaseURL";
 
+// !! FOR JSON PLACEHOLDER
+
 // Create
 export const createPost = async (newUser) => {
   const response = await axios.post(BASE_URL, newUser);
@@ -34,7 +36,7 @@ export const updateUserById = async (id, updatedData) => {
 export const API_BASE = "http://localhost/PHP";
 
 // CREATE USER
-export const registerUser = async (userData) => {
+export const createUser = async (userData) => {
   try {
     const res = await axios.post(`${API_BASE}/create.php`, userData, {
       headers: { "Content-Type": "application/json" },
@@ -51,7 +53,7 @@ export const registerUser = async (userData) => {
 };
 
 // READ USERS
-export const getAllUsers = async () => {
+export const ReadUsers = async () => {
   try {
     const res = await axios.get(`${API_BASE}/read.php`);
     // If your PHP returns { success: true, data: [...] }

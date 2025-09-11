@@ -5,9 +5,9 @@ $host = "localhost";
 //Database Name
 $dbname = "crud_db";
 // Username
-$username = "root"; // or your MySQL username
+$username = "myadmin"; // or your MySQL username
 // Password
-$password = "ajibolabakare@gmail.com";
+$password = "Bakare291";
 
 
 try {
@@ -16,7 +16,7 @@ try {
     
      // Set error mode
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // echo "Connected successfully!";
+    echo "Connected successfully!";
 
 
 }  catch (PDOException $e) {

@@ -2,6 +2,33 @@ import axios from "axios";
 // Mine: personally created json file data
 import { Admin_URL } from "../../data/BaseURL";
 
+// !! FOR JSON PLACEHOLDER
+// registration form: Post to submit to usersData.json
+export const postForm = async (data) => {
+  const response = await axios.post(Admin_URL, data);
+  return response.data;
+};
+
+// ✅ Login form: get to Check if email exists
+export const checkEmailExists = async (email) => {
+  if (!email) return null;
+  const res = await axios.get(`${Admin_URL}?email=${email}`);
+
+  // return true if email exists
+  return res.data.length > 0;
+};
+
+/* *
+ * Fetch admin(s) by email
+ * @param {string} email - The email address to search for
+ * @returns {Promise<Array>} Array of admins matching the email
+ */
+export const fetchAdminByEmail = async (email) => {
+  if (!email) return [];
+  const res = await axios.get(`${Admin_URL}?email=${email}`);
+  return res.data;
+};
+
 // !! FOR PHP BACKEND API
 export const API_BASE = "http://localhost/PHP";
 
@@ -72,31 +99,4 @@ export const deleteUser = async (userId) => {
   }
 
   return data;
-};
-
-// !! FOR JSON PLACEHOLDER
-// registration form: Post to submit to usersData.json
-export const postForm = async (data) => {
-  const response = await axios.post(Admin_URL, data);
-  return response.data;
-};
-
-// ✅ Login form: get to Check if email exists
-export const checkEmailExists = async (email) => {
-  if (!email) return null;
-  const res = await axios.get(`${Admin_URL}?email=${email}`);
-
-  // return true if email exists
-  return res.data.length > 0;
-};
-
-/* *
- * Fetch admin(s) by email
- * @param {string} email - The email address to search for
- * @returns {Promise<Array>} Array of admins matching the email
- */
-export const fetchAdminByEmail = async (email) => {
-  if (!email) return [];
-  const res = await axios.get(`${Admin_URL}?email=${email}`);
-  return res.data;
 };
