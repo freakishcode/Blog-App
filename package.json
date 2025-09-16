@@ -1,6 +1,5 @@
 {
   "name": "crud-react-php",
-  "homepage": "https://freakishcode.github.io/CRUD-React-PHP/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,8 +8,6 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
     "server1": "json-server data/UsersData.json --port 5775",
     "server2": "json-server data/admin.json --port 3665",
     "servers": "concurrently \"npm run server1\" \"npm run server2\""
