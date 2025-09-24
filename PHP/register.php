@@ -6,7 +6,7 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
 // imported DB connection
-require __DIR__ . '/DataBase/dbConfig.php'; 
+require __DIR__ . '/dbConfig.php'; 
 
 // Get raw POST data and convert to json
 $data = json_decode(file_get_contents("php://input"));

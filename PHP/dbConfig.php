@@ -1,13 +1,10 @@
 <?php
 
-// Host Name
-$host = "localhost";
-//Database Name
-$dbname = "crud_db";
-// Username
+// Database configuration
+$host = "localhost";// Host Name
+$dbname = "crud_db";//Database Name
 $username = "myadmin"; // or your MySQL username
-// Password
-$password = "Bakare291";
+$password = "Bakare291"; // Password
 
 
 try {
@@ -16,11 +13,16 @@ try {
     
      // Set error mode
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+      // ✅ Echo success message (for development/debugging only)
     echo "Connected successfully!";
 
 
 }  catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(["error" => "Database connection failed: " . $e->getMessage()]);
+    echo json_encode(["error" => "Database connection failed:"]);
+
+     // For debugging only (disable in production)
+    echo json_encode(["error" => $e->getMessage()]);
     exit();
 }
