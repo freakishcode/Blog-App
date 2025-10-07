@@ -46,10 +46,7 @@ export const BrowserRouters = createBrowserRouter(
       <Route path='read/:id' element={<Read />} />
       <Route path='*' element={<NotFound />} />
     </>
-  ),
-  {
-    basename: "/CRUD-React-PHP", // for GitHub Pages or subpath hosting
-  }
+  )
 );
 
 function App() {

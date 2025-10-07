@@ -4,7 +4,7 @@ import { AppContext } from "../Context/Context";
 import useDebounce from "../Hooks/useDebounce";
 import TableResult from "../components/DashboardResult/TableResult";
 
-import { ReadUsers } from "../api/Crud_api";
+import { fetchUsers } from "../api/Crud_api";
 
 // Material UI
 import {
@@ -34,7 +34,7 @@ function Home() {
     error,
   } = useQuery({
     queryKey: ["users"],
-    queryFn: ReadUsers,
+    queryFn: fetchUsers,
   });
 
   // Debounce search
