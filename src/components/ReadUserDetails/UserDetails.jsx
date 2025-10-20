@@ -13,7 +13,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 
-import { BASE_URL } from "../../../data/BaseURL";
+// import { BASE_URL } from "../../../data/BaseURL";
 
 // ✅ React Query + Axios
 import { useQuery } from "@tanstack/react-query";

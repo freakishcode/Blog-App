@@ -1,3 +1,13 @@
+// ?? TODO: FIREBASE DATABASE
+export const FIREBASE_URL =
+  "https://react-crud-firebase-proj-f9029-default-rtdb.firebaseio.com/usersData.json";
+
+export const ADMIN_FIREBASE_URL =
+  "https://react-crud-firebase-proj-f9029-default-rtdb.firebaseio.com/admin.json";
+
+// !! FOR PHP BACKEND API
+export const PHP_BASE_URL = "http://localhost/PHP";
+
 // TODO: DATA BASE JSON
 export const BASE_URL = "http://localhost:5775/users/";
 

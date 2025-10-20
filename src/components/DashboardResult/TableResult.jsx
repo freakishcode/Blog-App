@@ -20,7 +20,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 
 // TODO: DATA BASE JSON
-import { BASE_URL } from "../../../data/BaseURL";
+import { FIREBASE_URL } from "../../../data/BaseURL";
 
 // TODO: Accessing Toast context message
 import { useToast } from "../../UI/ToastMessage/ToastContext";
@@ -30,7 +30,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import SearchBar from "../SearchBar/SearchBar"; // ✅ import your SearchBar
 
-function TableResult() {
+export default function TableResult() {
   const toast = useToast();
   const queryClient = useQueryClient();
 
@@ -50,9 +50,16 @@ function TableResult() {
     );
   }
 
+  // Safely normalize data to an array
+  const rows = Array.isArray(DebounceSearchValue)
+    ? DebounceSearchValue
+    : DebounceSearchValue && typeof DebounceSearchValue === "object"
+    ? Object.values(DebounceSearchValue)
+    : [];
+
   // ✅ Delete mutation
   const deleteMutation = useMutation({
-    mutationFn: (id) => axios.delete(`${BASE_URL}${id}`),
+    mutationFn: (id) => axios.delete(`${FIREBASE_URL}${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries(["users"]);
       toast?.open("User deleted successfully");
@@ -99,8 +106,8 @@ function TableResult() {
               </td>
             </tr>
           ) : (
-            DebounceSearchValue.map((records, id) => (
-              <tr key={records.id || id}>
+            rows.map((records, id) => (
+              <tr key={records.id ?? id}>
                 <td>{id + 1}</td>
                 <td>{records.full_name}</td>
                 <td>{records.email}</td>
@@ -152,5 +159,3 @@ function TableResult() {
     </div>
   );
 }
-
-export default TableResult;

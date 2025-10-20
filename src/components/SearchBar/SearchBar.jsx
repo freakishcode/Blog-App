@@ -14,23 +14,32 @@ import SavedSearchIcon from "@mui/icons-material/SavedSearch";
 import useDebounce from "../../Hooks/useDebounce";
 
 function SearchBar() {
+  // Accessing context values
   const { data, setInputRecords } = useContext(AppContext);
+  // Local state for search query
   const [query, setQuery] = useState("");
 
   // ✅ Debounced search value (delays update by 500ms)
   const debouncedQuery = useDebounce(query, 500);
 
+  // Safely normalize data to an array
+  const rowsData = Array.isArray(data)
+    ? data
+    : data && typeof data === "object"
+    ? Object.values(data)
+    : [];
+
   // ✅ Function to apply search
   const applySearch = (searchValue) => {
     if (!searchValue.trim()) {
-      setInputRecords(data); // reset if input is empty
+      setInputRecords(rowsData); // reset if input is empty
       return;
     }
 
     const searchTerm = searchValue.toLowerCase().trim();
 
     setInputRecords(
-      data.filter((user) =>
+      rowsData.filter((user) =>
         [user.full_name, user.phone, user.email].some((field) =>
           field?.toLowerCase().includes(searchTerm)
         )
@@ -41,7 +50,7 @@ function SearchBar() {
   // ✅ Run search when debounced value changes
   useEffect(() => {
     applySearch(debouncedQuery);
-  }, [debouncedQuery, data]);
+  }, [debouncedQuery, rowsData]);
 
   // ✅ Handle Enter key for instant search
   const handleKeyDown = (e) => {

@@ -1,20 +1,25 @@
 // TODO: Using AXIOS LIBRARY
 import axios from "axios";
 
-// Mine: personally created json file data
-import { BASE_URL } from "../../data/BaseURL";
+// TODO: personally created json file data
+// import { BASE_URL, Admin_URL } from "../../data/BaseURL";
 
-// !! FOR JSON PLACEHOLDER
+// TODO: PHP BACKEND DATABASE
+import { PHP_BASE_URL } from "../../data/BaseURL";
 
+// TODO: FIREBASE DATABASE
+import { FIREBASE_URL } from "../../data/BaseURL";
+
+// !! FOR JSON PLACEHOLDER OR FIREBASE DATABASE
 // Create
 export const createPost = async (newUser) => {
-  const response = await axios.post(BASE_URL, newUser);
+  const response = await axios.post(FIREBASE_URL, newUser);
   return response.data;
 };
 
 // Read
 export const fetchUsers = async () => {
-  const res = await axios.get(BASE_URL);
+  const res = await axios.get(FIREBASE_URL);
   return res.data; // return users list
 };
 
@@ -22,23 +27,21 @@ export const fetchUsers = async () => {
 
 // Fetch single user by ID
 export const fetchUserById = async (id) => {
-  const res = await axios.get(`${BASE_URL}${id}`);
+  const res = await axios.get(`${FIREBASE_URL}${id}`);
   return res.data;
 };
 
 // Update user by ID
 export const updateUserById = async (id, updatedData) => {
-  const res = await axios.put(`${BASE_URL}${id}`, updatedData);
+  const res = await axios.put(`${FIREBASE_URL}${id}`, updatedData);
   return res.data;
 };
 
 // !! FOR PHP BACKEND API
-export const API_BASE = "http://localhost/PHP";
-
 // CREATE USER
 export const createUser = async (userData) => {
   try {
-    const res = await axios.post(`${API_BASE}/create.php`, userData, {
+    const res = await axios.post(`${PHP_BASE_URL}/create.php`, userData, {
       headers: { "Content-Type": "application/json" },
     });
     if (!res.data.success) {
@@ -55,7 +58,7 @@ export const createUser = async (userData) => {
 // READ USERS
 export const ReadUsers = async () => {
   try {
-    const res = await axios.get(`${API_BASE}/read.php`);
+    const res = await axios.get(`${PHP_BASE_URL}/read.php`);
     // If your PHP returns { success: true, data: [...] }
     if (res.data.success) {
       console.log("Fetched users data:", res.data);
@@ -76,7 +79,7 @@ export const ReadUsers = async () => {
 // UPDATE USER
 export const updateUser = async (userId, updatedData) => {
   try {
-    const res = await axios.put(`${API_BASE}/update.php`, {
+    const res = await axios.put(`${PHP_BASE_URL}/update.php`, {
       id: userId,
       ...updatedData,
     });
@@ -93,7 +96,7 @@ export const updateUser = async (userId, updatedData) => {
 // DELETE USER
 export const deleteUser = async (userId) => {
   try {
-    const res = await axios.delete(`${API_BASE}/delete.php`, {
+    const res = await axios.delete(`${PHP_BASE_URL}/delete.php`, {
       data: { id: userId }, // axios requires `data` key for body in DELETE
       headers: { "Content-Type": "application/json" },
     });

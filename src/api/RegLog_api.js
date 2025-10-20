@@ -1,18 +1,25 @@
 import axios from "axios";
-// Mine: personally created json file data
-import { Admin_URL } from "../../data/BaseURL";
+
+// TODO: personally created json file data
+// import { Admin_URL } from "../../data/BaseURL";
+
+// TODO: FIREBASE DATABASE
+import { ADMIN_FIREBASE_URL } from "../../data/BaseURL";
+
+// TODO: PHP BACKEND DATABASE
+import { PHP_BASE_URL } from "../../data/BaseURL";
 
 // !! FOR JSON PLACEHOLDER
 // registration form: Post to submit to usersData.json
 export const postForm = async (data) => {
-  const response = await axios.post(Admin_URL, data);
+  const response = await axios.post(ADMIN_FIREBASE_URL, data);
   return response.data;
 };
 
 // ✅ Login form: get to Check if email exists
 export const checkEmailExists = async (email) => {
   if (!email) return null;
-  const res = await axios.get(`${Admin_URL}?email=${email}`);
+  const res = await axios.get(`${ADMIN_FIREBASE_URL}?email=${email}`);
 
   // return true if email exists
   return res.data.length > 0;
@@ -25,17 +32,16 @@ export const checkEmailExists = async (email) => {
  */
 export const fetchAdminByEmail = async (email) => {
   if (!email) return [];
-  const res = await axios.get(`${Admin_URL}?email=${email}`);
+  const res = await axios.get(`${ADMIN_FIREBASE_URL}?email=${email}`);
   return res.data;
 };
 
 // !! FOR PHP BACKEND API
-export const API_BASE = "http://localhost/PHP";
 
 // REGISTER USER
 export const registerUser = async (userData) => {
   try {
-    const res = await axios.post(`${API_BASE}/register.php`, userData, {
+    const res = await axios.post(`${PHP_BASE_URL}/register.php`, userData, {
       headers: { "Content-Type": "application/json" },
     });
     if (!res.data.success) {
@@ -52,7 +58,7 @@ export const registerUser = async (userData) => {
 // CHECK EMAIL EXISTS
 export const loginEmailExists = async (email) => {
   try {
-    const res = await axios.get(`${API_BASE}/login.php`, {
+    const res = await axios.get(`${PHP_BASE_URL}/login.php`, {
       params: { email },
     });
     console.log(res.data);
@@ -67,7 +73,7 @@ export const loginEmailExists = async (email) => {
 // GET ALL USERS (if needed: for dashboard)
 export const getAllUsers = async () => {
   try {
-    const res = await axios.get(`${API_BASE}/users.php`);
+    const res = await axios.get(`${PHP_BASE_URL}/users.php`);
     // If your PHP returns { success: true, data: [...] }
     if (res.data.success) {
       console.log("Fetched users data:", res.data);
@@ -87,7 +93,7 @@ export const getAllUsers = async () => {
 
 // DELETE USER
 export const deleteUser = async (userId) => {
-  const res = await fetch(`${API_BASE}/delete.php`, {
+  const res = await fetch(`${PHP_BASE_URL}/delete.php`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id: userId }),
