@@ -20,6 +20,9 @@ const ErrorFallback = () => (
   </h2>
 );
 
+// TODO: My layouts : TO store Links and NavLinks
+import RootLayout from "./Layout/RootLayout";
+
 // Lazy-loaded Pages
 const Home = lazy(() => import("./Pages/Home"));
 const About = lazy(() => import("./Pages/About"));
@@ -36,7 +39,7 @@ const queryClient = new QueryClient();
 // Router setup
 export const BrowserRouters = createBrowserRouter(
   createRoutesFromElements(
-    <>
+    <Route path='/' element={<RootLayout />}>
       <Route index element={<Home />} />
       <Route path='login' element={<Login />} />
       <Route path='register' element={<Register />} />
@@ -44,8 +47,10 @@ export const BrowserRouters = createBrowserRouter(
       <Route path='create' element={<Create />} />
       <Route path='update/:id' element={<Update />} />
       <Route path='read/:id' element={<Read />} />
+
+      {/* Error page Route if None of the above page is Not found */}
       <Route path='*' element={<NotFound />} />
-    </>
+    </Route>
   )
 );
 

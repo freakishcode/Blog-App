@@ -1,7 +1,12 @@
-import React from "react";
+import ListOfUsers from "../components/ListOfUsers";
 
 function About() {
-  return <div>About</div>;
+  return (
+    <>
+      {/* ✅ Registered Users */}
+      <ListOfUsers />
+    </>
+  );
 }
 
 export default About;
