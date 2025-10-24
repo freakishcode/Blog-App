@@ -2,13 +2,19 @@
 
 /* Container */
 .container {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 2rem;
-  background: #ffffff;
+  max-width: 30rem;
+  margin: 1rem auto;
+  padding: 1rem 2rem;
   border-radius: 12px;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.08);
   animation: fadeIn 0.4s ease-in-out;
+}
+
+.show-login .form-box h1::after {
+  content: " 🔐";
+}
+.show-register .form-box h1::after {
+  content: " ✨";
 }
 
 /* Avatar with gradient */
@@ -17,7 +23,6 @@
   color: #fff;
   width: 60px !important;
   height: 60px !important;
-  margin-bottom: 0.5rem;
   box-shadow: 0px 3px 10px rgba(33, 150, 243, 0.4);
 }
 
@@ -27,19 +32,19 @@
 }
 
 /* Heading */
-.container h1 {
+/* .container h1 {
   font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
   margin: 1rem 0;
   color: #333;
-}
+} */
 
 /* Divider line */
 .line {
   height: 2px;
   width: 60%;
-  margin: 1rem auto 2rem;
+  margin: 1rem auto 1rem;
   background: linear-gradient(90deg, #2196f3, #21cbf3);
   border-radius: 2px;
 }
@@ -49,7 +54,7 @@ span {
   font-size: 0.8rem;
   font-weight: 500;
   color: #d32f2f; /* MUI error red */
-  margin-top: 4px;
+  /* margin-top: 4px; */
   margin-left: 4px;
   display: block;
 }
@@ -67,8 +72,34 @@ span {
 }
 
 /* Buttons container */
-.container .MuiBox-root {
+/* .container .MuiBox-root {
   margin-top: 1rem;
+} */
+
+.social-icons {
+  margin-top: 1rem;
+}
+
+.social-icons .google:hover {
+  border-color: #ec5247;
+  background-color: #d43c2a;
+  color: #fff;
+}
+
+.social-icons .facebook:hover {
+  border-color: #4267b2;
+  color: #fff;
+  background-color: #2d4ca6;
+}
+.social-icons .github:hover {
+  border-color: #333;
+  color: #fff;
+  background-color: #000;
+}
+.social-icons .linkedin:hover {
+  border-color: #0a66c2;
+  color: #fff;
+  background-color: #004182;
 }
 
 .MuiButton-root:hover {

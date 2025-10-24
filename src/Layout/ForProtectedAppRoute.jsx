@@ -10,7 +10,7 @@ const Read = lazy(() => import("../Pages/Read"));
 const Login = lazy(() => import("../Pages/Auth/Login"));
 const NotFound = lazy(() => import("../Pages/NotFound/NotFound"));
 
-const AppRoutes = () => {
+const ForProtectedAppRoute = () => {
   return (
     <Routes>
       {/* Public */}
@@ -28,7 +28,7 @@ const AppRoutes = () => {
   );
 };
 
-export default AppRoutes;
+export default ForProtectedAppRoute;
 
 
 // App.jsx
@@ -44,11 +44,8 @@ import { AuthProvider } from "./context/AuthContext";
 
 const queryClient = new QueryClient();
 
-const ErrorFallback = () => (
-  <h2 className="ErrorBoundary">
-    An error occurred in one of your components.
-  </h2>
-);
+// Error Fallback Component
+import { ErrorFallback } from "./UI/ErrorFallback";
 
 function App() {
   return (

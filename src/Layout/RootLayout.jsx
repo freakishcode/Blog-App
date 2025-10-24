@@ -22,12 +22,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 
 import RegisterModal from "../Pages/Auth/Register";
-import LoginModal from "../Pages/Auth/Login";
 
 function RootLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
-  const [openLogin, setOpenLogin] = useState(false);
+
   const isMobile = useMediaQuery("(min-width:20rem) and (max-width:64rem)");
 
   const handleDrawerToggle = () => setDrawerOpen((prev) => !prev);
@@ -36,6 +35,7 @@ function RootLayout() {
     { label: "Home", to: "/" },
     { label: "About", to: "/About" },
     { label: "Help", to: "/Help" },
+    // { label: "Post a Blog +", to: "/create" },
   ];
 
   return (
@@ -78,19 +78,29 @@ function RootLayout() {
               <Stack direction='row' spacing={2}>
                 <Button
                   component={Link}
-                  onClick={() => setOpenLogin(true)}
+                  to='/registerandlogin'
                   variant='contained'
                   color='primary'
                 >
-                  Login
+                  Register/Login
                 </Button>
+
                 <Button
                   component={Link}
-                  onClick={() => setOpenRegister(true)}
+                  to='/create'
                   variant='contained'
                   color='primary'
                 >
                   Register
+                </Button>
+
+                <Button
+                  component={Link}
+                  to='/login'
+                  variant='contained'
+                  color='primary'
+                >
+                  Login
                 </Button>
               </Stack>
             </Box>
@@ -127,6 +137,7 @@ function RootLayout() {
             <CloseIcon />
           </IconButton>
         </Box>
+
         <List
           sx={{
             display: "flex",
@@ -160,33 +171,41 @@ function RootLayout() {
               </ListItemButton>
             </ListItem>
           ))}
+
           <ListItem
             disablePadding
             sx={{ width: "100%", justifyContent: "center" }}
           >
             <ListItemButton
-              onClick={() => {
-                setOpenLogin(true);
-                setDrawerOpen(false);
-              }}
+              component={NavLink}
+              to={"./login"}
+              onClick={handleDrawerToggle}
               sx={{
                 justifyContent: "center",
+                "&.active .MuiListItemText-primary": {
+                  color: "#1976d2",
+                  fontWeight: 700,
+                },
               }}
             >
               <ListItemText primary='Login' sx={{ textAlign: "center" }} />
             </ListItemButton>
           </ListItem>
+
           <ListItem
             disablePadding
             sx={{ width: "100%", justifyContent: "center" }}
           >
             <ListItemButton
-              onClick={() => {
-                setOpenRegister(true);
-                setDrawerOpen(false);
-              }}
+              component={NavLink}
+              to={"./create"}
+              onClick={handleDrawerToggle}
               sx={{
                 justifyContent: "center",
+                "&.active .MuiListItemText-primary": {
+                  color: "#1976d2",
+                  fontWeight: 700,
+                },
               }}
             >
               <ListItemText primary='Register' sx={{ textAlign: "center" }} />
@@ -201,11 +220,7 @@ function RootLayout() {
           onClose={() => setOpenRegister(false)}
           setOpen={setOpenRegister}
         />
-        <LoginModal
-          open={openLogin}
-          onClose={() => setOpenLogin(false)}
-          setOpen={setOpenLogin}
-        />
+
         <Outlet />
       </main>
     </>

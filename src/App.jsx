@@ -14,11 +14,7 @@ import Preloader from "./UI/PageLoading-Animation/LoadingAnimation";
 import { ToastProvider } from "./UI/ToastMessage/ToastProvider";
 
 // Error Fallback Component
-const ErrorFallback = () => (
-  <h2 className='ErrorBoundary'>
-    An error occurred in one of your components.
-  </h2>
-);
+import { ErrorFallback } from "./UI/ErrorFallback";
 
 // TODO: My layouts : TO store Links and NavLinks
 import RootLayout from "./Layout/RootLayout";
@@ -26,10 +22,14 @@ import RootLayout from "./Layout/RootLayout";
 // Lazy-loaded Pages
 const Home = lazy(() => import("./Pages/Home"));
 const About = lazy(() => import("./Pages/About"));
+const Help = lazy(() => import("./Pages/Help"));
 const Create = lazy(() => import("./Pages/Create"));
 const Update = lazy(() => import("./Pages/Update"));
 const Read = lazy(() => import("./Pages/Read"));
 const Login = lazy(() => import("./Pages/Auth/Login"));
+const RegisterAndLogin = lazy(() =>
+  import("./Pages/Auth/LoginAndRegisterPage.jsx")
+);
 const Register = lazy(() => import("./Pages/Auth/Register"));
 const NotFound = lazy(() => import("./Pages/NotFound/NotFound"));
 
@@ -43,7 +43,11 @@ export const BrowserRouters = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path='login' element={<Login />} />
       <Route path='register' element={<Register />} />
+      <Route path='registerandlogin' element={<RegisterAndLogin />} />
+
       <Route path='about' element={<About />} />
+      <Route path='help' element={<Help />} />
+
       <Route path='create' element={<Create />} />
       <Route path='update/:id' element={<Update />} />
       <Route path='read/:id' element={<Read />} />

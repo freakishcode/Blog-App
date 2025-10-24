@@ -11,18 +11,15 @@ import {
   Box,
   Avatar,
   Button,
-  Container,
   TextField,
   Typography,
   CircularProgress,
   Paper,
   IconButton,
   InputAdornment,
-  Modal,
-  Fade,
 } from "@mui/material";
 
-import CloseIcon from "@mui/icons-material/Close";
+import EmailIcon from "@mui/icons-material/Email";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 
@@ -48,7 +45,7 @@ const modalStyle = {
   transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
 };
 
-const Login = ({ open, onClose }) => {
+const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -88,108 +85,92 @@ const Login = ({ open, onClose }) => {
     if (adminFound) {
       toast?.open("✅ Login successful!");
       navigate("/About");
-      onClose();
     } else {
       toast?.open("❌ Invalid email or password");
     }
   };
 
   return (
-    <Modal open={open} onClose={onClose} closeAfterTransition>
-      <Fade in={open}>
-        <Paper elevation={3} sx={modalStyle}>
-          <IconButton
-            aria-label='close'
-            onClick={onClose}
-            sx={{
-              position: "absolute",
-              right: 12,
-              top: 12,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
+    <Paper elevation={3} sx={modalStyle}>
+      <Avatar sx={{ m: "auto", bgcolor: "secondary.main" }}>
+        <HowToRegIcon />
+      </Avatar>
 
-          <Avatar sx={{ m: "auto", bgcolor: "secondary.main" }}>
-            <HowToRegIcon />
-          </Avatar>
+      <Typography variant='h5' gutterBottom textAlign='center'>
+        Login to Your Account
+      </Typography>
 
-          <Typography variant='h5' gutterBottom textAlign='center'>
-            Login to Your Account
-          </Typography>
+      <Box
+        component='form'
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+      >
+        {isError && (
+          <p style={{ textAlign: "center", color: "red" }}>
+            Unable to Login due to: {error.message}
+          </p>
+        )}
 
-          <Box
-            component='form'
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-          >
-            {isError && (
-              <p style={{ textAlign: "center", color: "red" }}>
-                Unable to Login due to: {error.message}
-              </p>
-            )}
+        {/* Email */}
+        <TextField
+          label='Email'
+          type='email'
+          fullWidth
+          {...register("email")}
+          error={!!errors.email}
+          helperText={errors.email?.message}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
+                <EmailIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
 
-            {/* Email */}
-            <TextField
-              label='Email'
-              type='email'
-              fullWidth
-              {...register("email")}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
+        {/* Password */}
+        <TextField
+          label='Password'
+          type={showPassword ? "text" : "password"}
+          fullWidth
+          {...register("password")}
+          error={!!errors.password}
+          helperText={errors.password?.message}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
+                <IconButton
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  edge='end'
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
 
-            {/* Password */}
-            <TextField
-              label='Password'
-              type={showPassword ? "text" : "password"}
-              fullWidth
-              {...register("password")}
-              error={!!errors.password}
-              helperText={errors.password?.message}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      edge='end'
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
+        {/* Submit */}
+        <Button
+          type='submit'
+          variant='contained'
+          color='primary'
+          disabled={isLoading}
+          sx={{ mt: 2 }}
+        >
+          {isLoading ? <CircularProgress size={24} color='inherit' /> : "Login"}
+        </Button>
 
-            {/* Submit */}
-            <Button
-              type='submit'
-              variant='contained'
-              color='primary'
-              disabled={isLoading}
-              sx={{ mt: 2 }}
-            >
-              {isLoading ? (
-                <CircularProgress size={24} color='inherit' />
-              ) : (
-                "Login"
-              )}
-            </Button>
-
-            <Button
-              variant='text'
-              onClick={() => {
-                onClose();
-                navigate("/register");
-              }}
-            >
-              Don’t have an account? Register
-            </Button>
-          </Box>
-        </Paper>
-      </Fade>
-    </Modal>
+        <Button
+          variant='text'
+          onClick={() => {
+            navigate("/create");
+          }}
+        >
+          Don’t have an account? Register
+        </Button>
+      </Box>
+    </Paper>
   );
 };
 
