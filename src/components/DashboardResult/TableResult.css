@@ -1,6 +1,6 @@
-/* TableResult.css */
-
-/* ✅ Container */
+/* ===============================
+   Base Styles - Table Container
+=================================*/
 .TableContainer {
   width: 100%;
   margin: 20px auto;
@@ -8,26 +8,89 @@
   background: #fff;
   border-radius: 12px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
-  overflow-x: auto; /* Makes table scrollable on small screens */
+  overflow-x: auto;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
 }
 
-.TableContainer h2 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 15px;
-  text-align: center;
-  color: #333;
+/* ✅ Scroll shadow indicators */
+.TableContainer::before,
+.TableContainer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+}
+
+.TableContainer::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  opacity: 0; /* hidden until scroll occurs */
+}
+
+.TableContainer::after {
+  right: 0;
+  /* background: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  ); */
+  opacity: 1;
+}
+
+/* Show left shadow only when table is scrolled */
+.TableContainer:has(table:focus-within),
+.TableContainer:hover {
+  scroll-behavior: smooth;
+}
+
+/* Scroll shadow behavior */
+.TableContainer:has(table:focus-within),
+.TableContainer:has(:hover) {
+  scroll-behavior: smooth;
+}
+
+.TableContainer:focus-within::before,
+.TableContainer:hover::before {
+  opacity: 1;
+}
+
+.TableContainer:focus-within::after,
+.TableContainer:hover::after {
+  opacity: 1;
+}
+
+.TableContainer::-webkit-scrollbar {
+  height: 6px;
+}
+
+.TableContainer::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
+  border-radius: 10px;
+}
+
+.TableContainer::-webkit-scrollbar-thumb:hover {
+  background: #888;
 }
 
 /* ===========================
-   Table + Search Bar Header
-   =========================== */
+   Header (Title + Search Bar)
+=========================== */
 .table-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
-  flex-wrap: wrap; /* ✅ responsive for small screens */
+  flex-wrap: wrap;
   gap: 12px;
 }
 
@@ -35,13 +98,17 @@
   font-size: 1.4rem;
   font-weight: 600;
   color: #333;
+  text-align: center;
+  flex: 1;
 }
 
-/* ✅ Table */
+/* ===========================
+   Table Styles
+=========================== */
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px; /* ensures table doesn't break on small screens */
+  min-width: 600px;
 }
 
 thead {
@@ -61,7 +128,7 @@ tbody {
   color: #333;
 }
 
-/* ✅ Zebra striping */
+/* ✅ Zebra stripes */
 tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
@@ -71,13 +138,14 @@ tbody tr:hover {
   transition: background 0.3s ease;
 }
 
-/* ✅ Actions cell */
+/* ===========================
+   Buttons + Actions
+=========================== */
 .Action_Btn {
   display: flex;
   gap: 10px;
 }
 
-/* ✅ Buttons (override Material UI spacing issue) */
 .table_btn {
   font-size: 0.85rem;
   padding: 6px 12px;
@@ -86,7 +154,9 @@ tbody tr:hover {
   box-shadow: none !important;
 }
 
-/* === No Results Table Row === */
+/* ===========================
+   No Results Row
+=========================== */
 .no-results {
   text-align: center;
   font-size: 1rem;
@@ -98,7 +168,6 @@ tbody tr:hover {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Icon next to text */
 .no-results-icon {
   font-size: 1.4rem;
   color: #fff;
@@ -106,7 +175,7 @@ tbody tr:hover {
   vertical-align: middle;
 }
 
-/* Smooth fade-in */
+/* ✅ Fade animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -118,14 +187,41 @@ tbody tr:hover {
   }
 }
 
-/* ✅ Responsive adjustments */
+/* =======================================================
+   📱 Responsive Styles (Mobile + Tablet + Medium Devices)
+========================================================= */
+
+/* ✅ Medium screens (Tablets, <1024px) */
+@media (max-width: 1024px) {
+  .TableContainer {
+    padding: 12px;
+  }
+
+  th,
+  td {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .table-header h2 {
+    font-size: 1.2rem;
+  }
+}
+
+/* ✅ Small screens (Phones, <768px) */
 @media (max-width: 768px) {
   .TableContainer {
     padding: 10px;
   }
 
   table {
-    min-width: unset; /* let table shrink on small devices */
+    min-width: unset;
     font-size: 0.9rem;
   }
 
@@ -134,10 +230,9 @@ tbody tr:hover {
     padding: 8px 10px;
   }
 
-  /* Stack buttons vertically on small screens */
   .Action_Btn {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .table_btn {
@@ -153,5 +248,41 @@ tbody tr:hover {
   .no-results-icon {
     font-size: 1.2rem;
     margin-right: 6px;
+  }
+}
+
+/* ✅ Extra-small screens (Phones <480px) */
+@media (max-width: 480px) {
+  .TableContainer {
+    padding: 8px;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .table-header h2 {
+    font-size: 1rem;
+  }
+
+  th,
+  td {
+    font-size: 0.85rem;
+    padding: 6px 8px;
+  }
+
+  .Action_Btn {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .table_btn {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+
+  .no-results {
+    font-size: 0.85rem;
   }
 }

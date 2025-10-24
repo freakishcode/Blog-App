@@ -9,7 +9,6 @@ import { fetchUsers } from "../api/Crud_api";
 // Material UI
 import {
   Typography,
-  Button,
   Container,
   Box,
   CircularProgress,
@@ -36,23 +35,11 @@ function ListOfUsers() {
       <Container sx={{ mt: 4 }}>
         <Box textAlign='center' mb={3}>
           <Typography variant='h4' fontWeight='bold' gutterBottom>
-            Latest Blog Post
+            List For Blog Post Users
           </Typography>
           <Typography variant='subtitle1'>
-            Records: {users.length} users
+            No of Registered Users: {users.length}
           </Typography>
-        </Box>
-
-        {/* Create/Add button */}
-        <Box textAlign='center' mb={3}>
-          <Button
-            component={Link}
-            to='/create'
-            variant='contained'
-            color='success'
-          >
-            Post a Blog +
-          </Button>
         </Box>
 
         {/* ✅ Handle Loading */}

@@ -1,26 +1,17 @@
 import "./Add.css";
-import { useState } from "react";
-
-// TODO: React router (external library)
-import { Link, useNavigate } from "react-router-dom";
-// ✅ React Query import
+import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-// TODO: React Hook Form + Yup (external library)
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-// TODO: Accessing Toast context message
 import { useToast } from "../../UI/ToastMessage/ToastContext";
-
 import { createPost } from "../../api/Crud_api";
 
-// TODO: Material UI library
+// MUI
 import {
   Box,
   Stack,
-  // Avatar,
   Button,
   TextField,
   MenuItem,
@@ -28,45 +19,49 @@ import {
   Paper,
   Typography,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 
-// MATERIAL UI ICONS
-import PersonIcon from "@mui/icons-material/Person";
-import PhoneIcon from "@mui/icons-material/Phone";
-import EmailIcon from "@mui/icons-material/Email";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
-// import HowToRegIcon from "@mui/icons-material/HowToReg";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Person as PersonIcon,
+  Phone as PhoneIcon,
+  Email as EmailIcon,
+  CheckCircleOutline as CheckCircleOutlineIcon,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 
 function Add() {
   const [showPassword, setShowPassword] = useState(false);
-
   const toast = useToast();
   const queryClient = useQueryClient();
-  const navigateBack = useNavigate();
+  const navigate = useNavigate();
 
-  // form validation from yup library
-  const schema = yup.object().shape({
-    full_name: yup.string().required("Your Full name is required"),
-    username: yup
-      .string()
-      .min(3, "userName must be at least 3 characters")
-      .required("Username is required"),
-    email: yup
-      .string()
-      .email("Invalid email format")
-      .required("Email is required"),
-    gender: yup.string().required("Gender is required"),
-    phone: yup
-      .string()
-      .required("Phone No is required")
-      .matches(/^\d{11}$/, "Phone No must be 11 digits"),
-    password: yup
-      .string()
-      .min(5, "Password must be at least 5 characters")
-      .required("Password is required"),
-  });
+  // ✅ Memoized validation schema
+  const schema = useMemo(
+    () =>
+      yup.object({
+        full_name: yup.string().required("Your full name is required"),
+        username: yup
+          .string()
+          .min(3, "Username must be at least 3 characters")
+          .required("Username is required"),
+        email: yup
+          .string()
+          .email("Invalid email format")
+          .required("Email is required"),
+        gender: yup.string().required("Gender is required"),
+        phone: yup
+          .string()
+          .matches(/^\d{11}$/, "Phone No must be 11 digits")
+          .required("Phone number is required"),
+        password: yup
+          .string()
+          .min(5, "Password must be at least 5 characters")
+          .required("Password is required"),
+      }),
+    []
+  );
 
   const {
     register,
@@ -74,127 +69,105 @@ function Add() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      gender: "", // 👈 ensure controlled value
-    },
+    defaultValues: { gender: "" },
   });
 
-  // ✅ Mutation for creating user
   const mutation = useMutation({
     mutationFn: createPost,
     onSuccess: () => {
-      queryClient.invalidateQueries(["users"]); // Refresh user list
+      queryClient.invalidateQueries(["users"]);
       toast?.open("✅ Registration successful!");
-      navigateBack("/About"); // Redirect to home
+      navigate("/About");
     },
     onError: (err) => {
-      console.error("Error creating user:", err);
+      console.error("❌ Error creating user:", err);
       toast?.open("❌ Registration failed, please try again");
     },
   });
 
-  // ✅ Replace direct axios with mutation
-  const SubmitForm = (data) => {
-    mutation.mutate(data);
-  };
+  const onSubmit = (data) => mutation.mutate(data);
+
+  const formFields = [
+    {
+      name: "full_name",
+      label: "Full Name",
+      icon: <PersonIcon />,
+      type: "text",
+    },
+    {
+      name: "username",
+      label: "Username",
+      icon: <PersonIcon />,
+      type: "text",
+    },
+    {
+      name: "email",
+      label: "Email",
+      icon: <EmailIcon />,
+      type: "email",
+    },
+  ];
 
   return (
-    <Paper className='container'>
-      <form onSubmit={handleSubmit(SubmitForm)}>
-        <header>
-          {/* <Avatar sx={{ m: "auto", bgcolor: "secondary.main" }}>
-            <HowToRegIcon />
-          </Avatar> */}
+    <Paper className='container p-6' elevation={3}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Typography variant='h5' align='center' gutterBottom>
+          ✨ Registration ✨
+        </Typography>
 
-          <Typography variant='h5' gutterBottom textAlign={"center"}>
-            ✨ Registration ✨
-          </Typography>
-        </header>
+        <div className='line mb-4'></div>
 
-        <div className='line'></div>
-
-        <div className='flex gap-4'>
-          <Stack spacing={2}>
-            {/* Full Name */}
-            <TextField
-              label='Full Name'
-              fullWidth
-              error={!!errors.full_name}
-              helperText={errors.full_name?.message}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <PersonIcon />
-                  </InputAdornment>
-                ),
-              }}
-              {...register("full_name")}
-            />
-
-            {/* username */}
-            <TextField
-              label='Username'
-              fullWidth
-              error={!!errors.username}
-              helperText={errors.username?.message}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <PersonIcon />
-                  </InputAdornment>
-                ),
-              }}
-              {...register("username")}
-            />
-
-            {/* Email */}
-            <TextField
-              label='Email'
-              fullWidth
-              type='email'
-              error={!!errors.email}
-              helperText={errors.email?.message}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <EmailIcon />
-                  </InputAdornment>
-                ),
-              }}
-              {...register("email")}
-            />
+        {/* ✅ Responsive layout with Tailwind */}
+        <div className='flex flex-col md:flex-row gap-4'>
+          {/* LEFT COLUMN */}
+          <Stack spacing={2} className='flex-1'>
+            {formFields.map(({ name, label, icon, type }) => (
+              <TextField
+                key={name}
+                label={label}
+                type={type}
+                fullWidth
+                error={!!errors[name]}
+                helperText={errors[name]?.message}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>{icon}</InputAdornment>
+                  ),
+                }}
+                {...register(name)}
+              />
+            ))}
           </Stack>
 
-          <Stack spacing={2}>
-            {/* Gender */}
-            <Box width='100%'>
-              <TextField
-                label='Select Gender'
-                fullWidth
-                select
-                defaultValue=''
-                error={!!errors.gender}
-                helperText={errors.gender?.message}
-                {...register("gender")}
-              >
-                <MenuItem value=''>-- Select --</MenuItem>
-                <MenuItem value='Male'>Male</MenuItem>
-                <MenuItem value='Female'>Female</MenuItem>
-              </TextField>
-            </Box>
+          {/* RIGHT COLUMN */}
+          <Stack spacing={2} className='flex-1'>
+            <TextField
+              label='Select Gender'
+              select
+              fullWidth
+              defaultValue=''
+              error={!!errors.gender}
+              helperText={errors.gender?.message}
+              {...register("gender")}
+            >
+              <MenuItem value=''>-- Select --</MenuItem>
+              <MenuItem value='Male'>Male</MenuItem>
+              <MenuItem value='Female'>Female</MenuItem>
+            </TextField>
+
             <TextField
               label='Phone No'
               fullWidth
               error={!!errors.phone}
               helperText={errors.phone?.message}
               InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>+234</InputAdornment>
+                ),
                 endAdornment: (
                   <InputAdornment position='end'>
                     <PhoneIcon />
                   </InputAdornment>
-                ),
-                startAdornment: (
-                  <InputAdornment position='start'>+234</InputAdornment>
                 ),
               }}
               {...register("phone")}
@@ -204,9 +177,9 @@ function Add() {
               label='Password'
               type={showPassword ? "text" : "password"}
               fullWidth
-              {...register("password")}
               error={!!errors.password}
               helperText={errors.password?.message}
+              autoComplete='new-password'
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -219,21 +192,26 @@ function Add() {
                   </InputAdornment>
                 ),
               }}
+              {...register("password")}
             />
           </Stack>
         </div>
 
-        <Stack spacing={2} direction='column' marginTop='1rem'>
-          {/* Disable button while submitting */}
+        {/* Buttons */}
+        <Stack spacing={2} mt={3}>
           <Button
             type='submit'
             variant='contained'
             color='primary'
             disabled={mutation.isLoading}
-            endIcon={<CheckCircleOutlineIcon style={{ color: "white" }} />}
+            endIcon={
+              !mutation.isLoading && (
+                <CheckCircleOutlineIcon style={{ color: "white" }} />
+              )
+            }
           >
             {mutation.isLoading ? (
-              <CircularProgress size={24} color='inherit' />
+              <CircularProgress size={22} color='inherit' />
             ) : (
               "Register"
             )}
@@ -241,30 +219,29 @@ function Add() {
 
           <Button
             variant='text'
-            onClick={() => {
-              navigateBack("/login");
-            }}
+            onClick={() => navigate("/login")}
+            sx={{ textTransform: "none" }}
           >
             Already have an account? Login
           </Button>
         </Stack>
 
-        <p className='text-center'>or login with social platforms</p>
+        {/* ✅ Social section */}
+        <Typography align='center' mt={3}>
+          or login with social platforms
+        </Typography>
 
-        <div className='social-icons'>
-          <a href='#' className='google'>
-            <i className='bx bxl-google'></i>
-          </a>
-          <a href='#' className='facebook'>
-            <i className='bx bxl-facebook'></i>
-          </a>
-          <a href='#' className='github'>
-            <i className='bx bxl-github'></i>
-          </a>
-          <a href='#' className='linkedin'>
-            <i className='bx bxl-linkedin'></i>
-          </a>
-        </div>
+        <Box className='flex justify-center gap-4 mt-2'>
+          {["google", "facebook", "github", "linkedin"].map((platform) => (
+            <a
+              key={platform}
+              href='#'
+              className={`text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-amber-500 transition`}
+            >
+              <i className={`bx bxl-${platform} text-2xl`}></i>
+            </a>
+          ))}
+        </Box>
       </form>
     </Paper>
   );
