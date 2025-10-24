@@ -225,23 +225,6 @@ function Add() {
             Already have an account? Login
           </Button>
         </Stack>
-
-        {/* ✅ Social section */}
-        <Typography align='center' mt={3}>
-          or login with social platforms
-        </Typography>
-
-        <Box className='flex justify-center gap-4 mt-2'>
-          {["google", "facebook", "github", "linkedin"].map((platform) => (
-            <a
-              key={platform}
-              href='#'
-              className={`text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-amber-500 transition`}
-            >
-              <i className={`bx bxl-${platform} text-2xl`}></i>
-            </a>
-          ))}
-        </Box>
       </form>
     </Paper>
   );

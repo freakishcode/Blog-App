@@ -37,9 +37,6 @@ function ListOfUsers() {
           <Typography variant='h4' fontWeight='bold' gutterBottom>
             List For Blog Post Users
           </Typography>
-          <Typography variant='subtitle1'>
-            No of Registered Users: {users.length}
-          </Typography>
         </Box>
 
         {/* ✅ Handle Loading */}

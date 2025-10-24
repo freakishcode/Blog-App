@@ -42,7 +42,7 @@ export default function TableResult() {
     { id: "phone", name: "Mobile No" },
   ];
 
-  const { DebounceSearchValue } = useContext(AppContext);
+  const { DebounceSearchValue, data } = useContext(AppContext);
 
   if (DebounceSearchValue === undefined) {
     throw new Error(
@@ -83,7 +83,7 @@ export default function TableResult() {
     <div className='TableContainer'>
       {/* ✅ Header with search bar */}
       <div className='table-header'>
-        <h2>List of Users</h2>
+        <h2> Record Users: {data.length}</h2>
         <SearchBar />
       </div>
 

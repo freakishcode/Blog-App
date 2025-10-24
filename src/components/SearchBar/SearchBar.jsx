@@ -1,58 +1,54 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useMemo, useCallback } from "react";
 import "./SearchBar.css";
 
-// importing the created context FROM HOME COMPONENT
 import { AppContext } from "../../Context/Context";
 
-// Material UI library
+// MUI
 import { IconButton } from "@mui/material";
-
-// MATERIAL UI ICONS
 import SavedSearchIcon from "@mui/icons-material/SavedSearch";
 
-// ✅ Import debounce hook
 import useDebounce from "../../Hooks/useDebounce";
 
 function SearchBar() {
-  // Accessing context values
   const { data, setInputRecords } = useContext(AppContext);
-  // Local state for search query
   const [query, setQuery] = useState("");
 
-  // ✅ Debounced search value (delays update by 500ms)
+  // ✅ Debounce search input (500ms delay)
   const debouncedQuery = useDebounce(query, 500);
 
-  // Safely normalize data to an array
-  const rowsData = Array.isArray(data)
-    ? data
-    : data && typeof data === "object"
-    ? Object.values(data)
-    : [];
+  // ✅ Normalize data only when it changes
+  const rowsData = useMemo(() => {
+    if (Array.isArray(data)) return data;
+    if (data && typeof data === "object") return Object.values(data);
+    return [];
+  }, [data]);
 
-  // ✅ Function to apply search
-  const applySearch = (searchValue) => {
-    if (!searchValue.trim()) {
-      setInputRecords(rowsData); // reset if input is empty
-      return;
-    }
+  // ✅ Search logic (memoized)
+  const applySearch = useCallback(
+    (searchValue) => {
+      const trimmed = searchValue.trim().toLowerCase();
+      if (!trimmed) {
+        setInputRecords(rowsData); // reset
+        return;
+      }
 
-    const searchTerm = searchValue.toLowerCase().trim();
-
-    setInputRecords(
-      rowsData.filter((user) =>
-        [user.full_name, user.phone, user.email].some((field) =>
-          field?.toLowerCase().includes(searchTerm)
+      const filtered = rowsData.filter((user) =>
+        ["full_name", "phone", "email"].some((key) =>
+          user[key]?.toLowerCase().includes(trimmed)
         )
-      )
-    );
-  };
+      );
 
-  // ✅ Run search when debounced value changes
+      setInputRecords(filtered);
+    },
+    [rowsData, setInputRecords]
+  );
+
+  // ✅ Auto-run search when debounced query updates
   useEffect(() => {
     applySearch(debouncedQuery);
-  }, [debouncedQuery, rowsData]);
+  }, [debouncedQuery, applySearch]);
 
-  // ✅ Handle Enter key for instant search
+  // ✅ Handle Enter key
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -70,7 +66,6 @@ function SearchBar() {
         placeholder='Search by name, phone, or email'
         aria-label='Search users'
       />
-      {/* SEARCH ICON (Instant search) */}
       <IconButton aria-label='search' onClick={() => applySearch(query)}>
         <SavedSearchIcon />
       </IconButton>

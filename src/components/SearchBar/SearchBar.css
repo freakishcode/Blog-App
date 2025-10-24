@@ -1,36 +1,118 @@
+/* ===============================
+   🔍 SearchBar - Base Styles
+=================================*/
 .SearchBar {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: #f9f9f9;
-  padding: 6px 12px;
+  justify-content: flex-end;
+  gap: 10px;
+  background: #f5f7fa;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  transition: box-shadow 0.2s ease;
+  border-radius: 10px;
+  padding: 6px 10px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .SearchBar:focus-within {
-  box-shadow: 0 0 0 2px #007bff44;
+  border-color: #1976d2;
+  box-shadow: 0px 2px 8px rgba(25, 118, 210, 0.25);
 }
 
-.SearchBar input {
+/* ===============================
+   🧭 Input Field
+=================================*/
+.SearchBar input[type="search"] {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 14px;
   background: transparent;
-  padding: 6px;
-  color: black;
+  font-size: 0.95rem;
+  color: #333;
+  padding: 8px 6px;
+  min-width: 180px;
 }
 
+.SearchBar input::placeholder {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* ===============================
+   🔘 IconButton
+=================================*/
 .SearchBar button,
 .SearchBar .MuiIconButton-root {
-  color: #555;
+  background-color: #1976d2;
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px;
+  transition: background 0.25s ease, transform 0.15s ease;
 }
 
-/* ✅ Mobile tweak */
-@media (max-width: 600px) {
+.SearchBar button:hover,
+.SearchBar .MuiIconButton-root:hover {
+  background-color: #1565c0;
+  transform: scale(1.05);
+}
+
+.SearchBar button:active,
+.SearchBar .MuiIconButton-root:active {
+  transform: scale(0.97);
+}
+
+/* ===============================
+   💡 Responsive Behavior
+=================================*/
+
+/* Medium screens (tablet) */
+@media (max-width: 1024px) {
   .SearchBar {
     width: 100%;
+    justify-content: space-between;
+  }
+
+  .SearchBar input {
+    min-width: 100px;
+  }
+}
+
+/* Small screens (mobile ≤768px) */
+@media (max-width: 768px) {
+  .SearchBar {
+    width: 100%;
+    justify-content: center;
+    padding: 6px 8px;
+  }
+
+  .SearchBar input {
+    width: 100%;
+    min-width: unset;
+    font-size: 0.9rem;
+    padding: 7px;
+  }
+
+  .SearchBar button,
+  .SearchBar .MuiIconButton-root {
+    padding: 6px;
+  }
+}
+
+/* Extra small screens (≤480px) */
+@media (max-width: 480px) {
+  .SearchBar {
+    flex-direction: row;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .SearchBar input {
+    font-size: 0.85rem;
+    padding: 6px;
+  }
+
+  .SearchBar button,
+  .SearchBar .MuiIconButton-root {
+    padding: 5px;
   }
 }
