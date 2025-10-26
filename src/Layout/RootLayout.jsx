@@ -23,9 +23,13 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import RegisterModal from "../Pages/Auth/Register";
 
+import PostLogo from "../assets/images/icons8-circled-user-male-skin-type-6-48.png";
+
 function RootLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
+
+  const isAuth = true;
 
   const isMobile = useMediaQuery("(min-width:20rem) and (max-width:64rem)");
 
@@ -42,9 +46,12 @@ function RootLayout() {
     <>
       <AppBar position='static' color='default' elevation={1}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant='h6' fontWeight='bold'>
-            Blog App
-          </Typography>
+          <Link className='flex items-center gap-2'>
+            <img src={PostLogo} alt='PostLogo' />
+            <Typography variant='h6' fontWeight='bold'>
+              Blog App
+            </Typography>
+          </Link>
 
           {/* Desktop Nav */}
           {!isMobile && (
@@ -75,34 +82,50 @@ function RootLayout() {
                 ))}
               </Stack>
 
-              <Stack direction='row' spacing={2}>
-                <Button
-                  component={Link}
-                  to='/registerandlogin'
-                  variant='contained'
-                  color='primary'
-                >
-                  Register/Login
-                </Button>
+              {isAuth ? (
+                <Stack direction='row' spacing={2}>
+                  <Button
+                    Button
+                    component={NavLink}
+                    to='/CreateBlogPage'
+                    variant='contained'
+                  >
+                    CreatePost
+                  </Button>
+                  <Button variant='contained'>Logout</Button>
+                </Stack>
+              ) : (
+                <Stack direction='row' spacing={2}>
+                  <Button
+                    component={Link}
+                    to='/registerandlogin'
+                    variant='contained'
+                    color='primary'
+                  >
+                    Register/Login
+                  </Button>
 
-                <Button
-                  component={Link}
-                  to='/create'
-                  variant='contained'
-                  color='primary'
-                >
-                  Register
-                </Button>
+                  <Button
+                    component={Link}
+                    to='/create'
+                    variant='contained'
+                    color='primary'
+                  >
+                    Register
+                  </Button>
 
-                <Button
-                  component={Link}
-                  to='/login'
-                  variant='contained'
-                  color='primary'
-                >
-                  Login
-                </Button>
-              </Stack>
+                  <Button
+                    component={Link}
+                    to='/login'
+                    variant='contained'
+                    color='primary'
+                  >
+                    Login
+                  </Button>
+
+                  <Button variant='contained'>Login using Goggle</Button>
+                </Stack>
+              )}
             </Box>
           )}
 

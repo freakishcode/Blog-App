@@ -1,14 +1,14 @@
-.Error-msg {
+.pageNotFound {
   text-align: center;
   padding: 1rem;
 
-  header {
-    margin-bottom: 1rem;
-    color: red;
+  img {
+    border-radius: 5px;
+    width: 100%;
+    margin: 15px auto;
   }
+}
 
-  footer {
-    margin-top: 1rem;
-    color: gray;
-  }
+.pageNotFoundFooter {
+  margin-top: 1rem;
 }

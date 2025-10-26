@@ -4,16 +4,22 @@ import "./NotFound.css";
 // REACT ROUTER LINKS
 import { Link /*, useRouteError*/ } from "react-router-dom";
 
+import NotFoundImage from "../../assets/images/page-not-found.jpg";
+
+// MUI
+import { Button, Typography } from "@mui/material";
+
 function NotFound() {
   // useRouteError only works if you are using the Data Router API (createBrowserRouter + RouterProvider).
   // const error = useRouteError();
 
   return (
-    <div className='Error-msg'>
-      <header>
-        <h1>Sorry, Page not Found!</h1>
-        {/* <p>{error.message}</p> */}
-      </header>
+    <div className='pageNotFound'>
+      <Typography variant='h6' fontWeight='bold' color='error'>
+        404 / Page Not Found!
+      </Typography>
+
+      <img src={NotFoundImage} alt='Page Not Found' />
 
       <p>
         The Component Page you are looking for does not exits or is not found.
@@ -24,11 +30,11 @@ function NotFound() {
       </p>
 
       {/* Home PAGE COMPONENT */}
-      <footer>
-        <p>
-          Go back to the <Link to='/'>HomePage</Link>
-        </p>
-      </footer>
+      <div className='pageNotFoundFooter'>
+        <Button component={Link} to='/' variant='contained' color='primary'>
+          Go back To HomePage
+        </Button>
+      </div>
     </div>
   );
 }

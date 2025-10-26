@@ -5,6 +5,9 @@ export const FIREBASE_URL =
 export const ADMIN_FIREBASE_URL =
   "https://react-crud-firebase-proj-f9029-default-rtdb.firebaseio.com/admin.json";
 
+export const BLOGPOST_FIREBASE_URL =
+  "https://react-crud-firebase-proj-f9029-default-rtdb.firebaseio.com/blogpost.json";
+
 // !! FOR PHP BACKEND API
 export const PHP_BASE_URL = "http://localhost/PHP";
 
