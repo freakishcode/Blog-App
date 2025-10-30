@@ -1,11 +1,11 @@
 // Blog component
-import BlogPost from "../components/Blog/BlogPost";
+import Dashboard from "../components/Blog/Dashboard";
 
 function Home() {
   return (
-    <>
-      <BlogPost />
-    </>
+    <div className='min-h-screen  flex items-center justify-center p-6'>
+      <Dashboard />
+    </div>
   );
 }
 

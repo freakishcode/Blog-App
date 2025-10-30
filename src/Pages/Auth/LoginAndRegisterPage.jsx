@@ -148,20 +148,18 @@ function LoginAndRegisterPage() {
 
             <p>or {isLogin ? "login" : "register"} with social platforms</p>
 
-            <div className='social-icons'>
-              <a href='#' className='google'>
-                <i className='bx bxl-google'></i>
-              </a>
-              <a href='#' className='facebook'>
-                <i className='bx bxl-facebook'></i>
-              </a>
-              <a href='#' className='github'>
-                <i className='bx bxl-github'></i>
-              </a>
-              <a href='#' className='linkedin'>
-                <i className='bx bxl-linkedin'></i>
-              </a>
-            </div>
+            {isLogin && (
+              <button
+                type='submit'
+                className='btn social-icons'
+                disabled={isSubmitting}
+              >
+                Login with{" "}
+                <span href='#' className='google'>
+                  <i className='bx bxl-google'></i>
+                </span>
+              </button>
+            )}
           </form>
         </div>
 

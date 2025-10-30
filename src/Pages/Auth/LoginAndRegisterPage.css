@@ -134,38 +134,12 @@ input::placeholder {
 .social-icons {
   display: flex;
   justify-content: center;
+  align-items: center;
 
-  a {
-    display: inline-flex;
-    padding: 10px;
-    color: #333;
-    border: 2px solid #ccc;
-    border-radius: 8px;
+  i {
+    color: #ec5247;
     font-size: 24px;
-    margin: 0 8px;
   }
-}
-
-.social-icons .google:hover {
-  border-color: #ec5247;
-  background-color: #d43c2a;
-  color: #fff;
-}
-
-.social-icons .facebook:hover {
-  border-color: #4267b2;
-  color: #fff;
-  background-color: #2d4ca6;
-}
-.social-icons .github:hover {
-  border-color: #333;
-  color: #fff;
-  background-color: #000;
-}
-.social-icons .linkedin:hover {
-  border-color: #0a66c2;
-  color: #fff;
-  background-color: #004182;
 }
 
 .toggle-box {

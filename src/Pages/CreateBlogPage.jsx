@@ -1,4 +1,4 @@
-import CreatePost from "../components/Blog/CreatePost";
+import CreatePost from "../components/Blog/PostBlog";
 
 export default function CreateBlogPage() {
   return (
