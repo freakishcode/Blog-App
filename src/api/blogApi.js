@@ -9,12 +9,6 @@ export const fetchPosts = async () => {
   return res.data;
 };
 
-// Create all blog posts
-// export const createPost = async (data) => {
-//   const res = await axios.post(`${BASE_URL}/create_post.php`, data);
-//   return res.data;
-// };
-
 /**
  * Create a new blog post
  * @param {FormData} formData - Blog form data (title, content, author, image)
@@ -34,13 +28,22 @@ export const createPost = async (formData, setUploadProgress) => {
 };
 
 // Update an existing blog post
-export const updatePost = async (data) => {
-  const res = await axios.put(`${BASE_URL}/update_post.php`, data);
+export const updatePost = async (formData) => {
+  const res = await axios.post(`${BASE_URL}/update_post.php`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return res.data;
 };
 
 // Delete a blog post
+// export const deletePost = async (id) => {
+//   const res = await axios.delete(`${BASE_URL}/delete_post.php?id=${id}`);
+//   return res.data;
+// };
+
 export const deletePost = async (id) => {
-  const res = await axios.delete(`${BASE_URL}/delete_post.php?id=${id}`);
-  return res.data;
+  await axios.delete(`${BASE_URL}/delete_post.php`, {
+    data: { id },
+    headers: { "Content-Type": "application/json" },
+  });
 };
