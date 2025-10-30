@@ -76,7 +76,7 @@ export default function EditPost() {
     onSuccess: () => {
       queryClient.invalidateQueries(["posts"]);
       toast?.open("✅ Post updated successfully!");
-      navigate("/dashboard");
+      navigate("/Home");
     },
     onError: () => {
       toast?.open("❌ Failed to update post.");

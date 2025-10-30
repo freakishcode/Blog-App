@@ -1,11 +1,7 @@
-import Contact from "../components/ContactMe";
+// import Contact from "../components/ContactMe";
 
 function Help() {
-  return (
-    <>
-      <Contact />
-    </>
-  );
+  return <>{/* <Contact /> */}</>;
 }
 
 export default Help;
