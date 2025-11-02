@@ -4,43 +4,55 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-include "./db.php";
+include "./db.php"; // uses $pdo
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $uploadDir = "uploads/";
-    if (!file_exists($uploadDir)) mkdir($uploadDir, 0777, true);
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    echo json_encode(["error" => "Invalid request method"]);
+    exit;
+}
 
-    // Handle both form-data and JSON
+$uploadDir = "uploads/";
+if (!file_exists($uploadDir)) mkdir($uploadDir, 0777, true);
+
+try {
+    // ✅ Support both JSON & multipart/form-data
     if (!empty($_POST)) {
-        $id = intval($_POST["id"]);
-        $title = $conn->real_escape_string($_POST["title"]);
-        $content = $conn->real_escape_string($_POST["content"]);
-        $author = $conn->real_escape_string($_POST["author"]);
+        $id = intval($_POST["id"] ?? 0);
+        $title = trim($_POST["title"] ?? "");
+        $content = trim($_POST["content"] ?? "");
+        $author = trim($_POST["author"] ?? "");
     } else {
         $data = json_decode(file_get_contents("php://input"), true);
-        $id = intval($data["id"]);
-        $title = $conn->real_escape_string($data["title"]);
-        $content = $conn->real_escape_string($data["content"]);
-        $author = $conn->real_escape_string($data["author"]);
+        $id = intval($data["id"] ?? 0);
+        $title = trim($data["title"] ?? "");
+        $content = trim($data["content"] ?? "");
+        $author = trim($data["author"] ?? "");
     }
 
-    // Get existing post to preserve old image
-    $getOld = $conn->query("SELECT image FROM posts WHERE id = $id");
-    if (!$getOld || $getOld->num_rows === 0) {
+    if (!$id || !$title || !$content) {
+        echo json_encode(["error" => "Missing required fields"]);
+        exit;
+    }
+
+    // ✅ Fetch old image
+    $stmt = $pdo->prepare("SELECT image FROM posts WHERE id = ?");
+    $stmt->execute([$id]);
+    $post = $stmt->fetch();
+
+    if (!$post) {
         echo json_encode(["error" => "Post not found"]);
         exit;
     }
 
-    $oldImage = $getOld->fetch_assoc()["image"];
-    $newImage = $oldImage; // default: keep old image
+    $oldImage = $post["image"];
+    $newImage = $oldImage;
 
-    // If new image uploaded
-    if (isset($_FILES["image"]) && $_FILES["image"]["error"] === UPLOAD_ERR_OK) {
+    // ✅ If new image uploaded
+    if (!empty($_FILES["image"]) && $_FILES["image"]["error"] === UPLOAD_ERR_OK) {
         $fileName = time() . "_" . basename($_FILES["image"]["name"]);
         $targetPath = $uploadDir . $fileName;
 
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetPath)) {
-            // Delete old image
             if (!empty($oldImage) && file_exists($uploadDir . $oldImage)) {
                 unlink($uploadDir . $oldImage);
             }
@@ -48,19 +60,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
-    // Update query
-    $sql = "UPDATE posts 
-            SET title='$title', content='$content', author='$author', image='$newImage'
-            WHERE id=$id";
+    // ✅ Update query (safe prepared statement)
+    $stmt = $pdo->prepare("
+        UPDATE posts
+        SET title = ?, content = ?, author = ?, image_url = ?
+        WHERE id = ?
+    ");
+    $stmt->execute([$title, $content, $author, $newImage, $id]);
 
-    if ($conn->query($sql)) {
-        echo json_encode(["success" => true, "message" => "✅ Post updated successfully"]);
-    } else {
-        echo json_encode(["error" => "❌ Update failed: " . $conn->error]);
-    }
-} else {
-    echo json_encode(["error" => "Invalid request method"]);
+    echo json_encode(["success" => true, "message" => "✅ Post updated successfully"]);
+
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo json_encode([
+        "error" => "❌ Update failed",
+        "details" => $e->getMessage()
+    ]);
 }
-
-$conn->close();
-?>

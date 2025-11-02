@@ -28,7 +28,20 @@ const schema = yup.object({
   title: yup.string().required("Title is required"),
   content: yup.string().required("Content is required"),
   author: yup.string().required("Author is required"),
-  image: yup.string().required("Image is required"),
+  image_url: yup.mixed().required("Image is required"),
+  // .test("fileSize", "Image must be less than 5MB", (value) => {
+  //   return value && value[0] && value[0].size <= 5 * 1024 * 1024;
+  // })
+  // .test("fileType", "Unsupported image format", (value) => {
+  //   const allowed = [
+  //     "image/jpeg",
+  //     "image/jpg",
+  //     "image/png",
+  //     "image/gif",
+  //     "image/webp",
+  //   ];
+  //   return value && value[0] && allowed.includes(value[0].type);
+  // }),
 });
 
 export default function BlogForm() {
@@ -73,7 +86,7 @@ export default function BlogForm() {
     formData.append("title", data.title);
     formData.append("content", data.content);
     formData.append("author", data.author);
-    formData.append("image", data.image[0]);
+    formData.append("image_url", data.image_url[0]);
     mutation.mutate(formData);
   };
 
@@ -169,13 +182,13 @@ export default function BlogForm() {
               type='file'
               hidden
               accept='image/*'
-              {...register("image")}
+              {...register("image_url")}
               onChange={handleImageChange}
             />
           </Button>
 
-          {errors.image && (
-            <FormHelperText error>{errors.image.message}</FormHelperText>
+          {errors.image_url && (
+            <FormHelperText error>{errors.image_url.message}</FormHelperText>
           )}
 
           {preview && (

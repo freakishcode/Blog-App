@@ -1,20 +1,20 @@
 <?php
-// Include database connection
-include "./db.php";
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
-// Fetch all blog posts
-$sql = "SELECT * FROM posts ORDER BY created_at DESC";
-$result = $conn->query($sql);
+include "./db.php"; // uses $pdo
 
-// Fetch all posts
-$posts = [];
-if ($result && $result->num_rows > 0) {
-  while ($row = $result->fetch_assoc()) {
-    $posts[] = $row;
-  }
+try {
+    $stmt = $pdo->query("SELECT id, title, content, author, image_url, created_at FROM posts ORDER BY created_at DESC");
+    $posts = $stmt->fetchAll();
+
+    echo json_encode($posts);
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo json_encode([
+        "error" => "Database query failed",
+        "details" => $e->getMessage()
+    ]);
 }
-
-// Return posts as JSON
-echo json_encode($posts);
-$conn->close();
-?>

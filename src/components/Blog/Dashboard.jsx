@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchPosts, deletePost } from "../../api/blogApi";
+import { fetchPosts, deletePost, BASE_URL } from "../../api/blogApi";
 import { useToast } from "../../UI/ToastMessage/ToastContext";
 import {
   Card,
@@ -12,7 +12,7 @@ import {
   Box,
 } from "@mui/material";
 import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function BlogDashboard() {
   const queryClient = useQueryClient();
@@ -134,7 +134,7 @@ export default function BlogDashboard() {
             {/* Post Image */}
             <Box
               component='img'
-              src={`http://localhost/PHP/Blog/uploads/${post.image}`}
+              src={`${BASE_URL}/${post.image_url}`}
               alt={post.title}
               sx={{
                 width: "100%",
@@ -173,6 +173,7 @@ export default function BlogDashboard() {
             {/* Actions */}
             <CardActions sx={{ px: 2, pb: 2, justifyContent: "space-between" }}>
               <Button
+                component={Link}
                 variant='contained'
                 color='primary'
                 startIcon={<EditIcon />}

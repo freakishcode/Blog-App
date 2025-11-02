@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Base URL for the backend API
-const BASE_URL = "http://localhost/PHP/Blog";
+export const BASE_URL = "http://localhost/PHP/Blog";
 
 // Fetch all blog posts
 export const fetchPosts = async () => {
@@ -21,6 +21,8 @@ export const createPost = async (formData, setUploadProgress) => {
     headers: { "Content-Type": "multipart/form-data" },
     onUploadProgress: (event) => {
       const percent = Math.round((event.loaded * 100) / event.total);
+
+      // Update upload progress state
       if (setUploadProgress) setUploadProgress(percent);
     },
   });
