@@ -1,12 +1,25 @@
 import axios from "axios";
+import api from "./axios";
 
 // Base URL for the backend API
-export const BASE_URL = "http://localhost/PHP/Blog";
+export const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost/PHP/Blog";
 
 // Fetch all blog posts
 export const fetchPosts = async () => {
   const res = await axios.get(`${BASE_URL}/get_posts.php`);
   return res.data;
+};
+
+/**
+ * createPost - sends formData including an optional image file
+ * returns axios response promise
+ */
+export const createPostTest = (formData, onUploadProgress) => {
+  return api.post("/create_post.php", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+    onUploadProgress,
+  });
 };
 
 /**
@@ -19,6 +32,8 @@ export const fetchPosts = async () => {
 export const createPost = async (formData, setUploadProgress) => {
   const res = await axios.post(`${BASE_URL}/create_post.php`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
+
+    //
     onUploadProgress: (event) => {
       const percent = Math.round((event.loaded * 100) / event.total);
 

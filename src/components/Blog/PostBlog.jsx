@@ -3,7 +3,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+// 🔹 Toast Message Context
 import { useToast } from "../../UI/ToastMessage/ToastContext";
+// 🔹 API Function
+import { createPost } from "../../api/blogApi";
+
+// 🔹 MUI Components
 import {
   Button,
   Typography,
@@ -13,22 +19,29 @@ import {
   InputLabel,
   FormHelperText,
   Stack,
+  InputAdornment,
+  Avatar,
 } from "@mui/material";
+
+// 🔹 Icons
 import {
+  Title as TitleIcon,
+  Description as DescriptionIcon,
+  Person as PersonIcon,
   Article as ArticleIcon,
   CloudUpload as CloudUploadIcon,
   RestartAlt as RestartAltIcon,
   Visibility as VisibilityIcon,
+  PhotoCamera as PhotoCamera,
   Image as ImageIcon,
 } from "@mui/icons-material";
-import { createPost } from "../../api/blogApi";
 
 // 🔹 Validation Schema
 const schema = yup.object({
   title: yup.string().required("Title is required"),
   content: yup.string().required("Content is required"),
   author: yup.string().required("Author is required"),
-  image_url: yup.mixed().required("Image is required"),
+  image_url: yup.mixed().required("An Image is required"),
   // .test("fileSize", "Image must be less than 5MB", (value) => {
   //   return value && value[0] && value[0].size <= 5 * 1024 * 1024;
   // })
@@ -59,6 +72,7 @@ export default function BlogForm() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
+  // 🔹 Watch form fields for live preview
   const title = watch("title");
   const author = watch("author");
   const content = watch("content");
@@ -83,6 +97,7 @@ export default function BlogForm() {
   // 🔹 Submit Handler
   const onSubmit = (data) => {
     const formData = new FormData();
+
     formData.append("title", data.title);
     formData.append("content", data.content);
     formData.append("author", data.author);
@@ -94,6 +109,7 @@ export default function BlogForm() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return setPreview(null);
+
     if (file.size > 5 * 1024 * 1024) {
       toast?.open("⚠️ Image must be less than 5MB");
       e.target.value = null;
@@ -103,11 +119,15 @@ export default function BlogForm() {
   };
 
   return (
-    <div className='grid md:grid-cols-2 gap-10 lg:gap-10 items-start my-2'>
+    <div className='p-6 grid grid-cols-1 md:grid-cols-2 gap-6 w-full h-full '>
       {/* --- BLOG FORM --- */}
-      <form
+      <Box
+        component='form'
+        sx={{
+          "& .MuiTextField-root": { width: "80%" },
+        }}
+        className='bg-white shadow-sm flex flex-col   rounded-2xl justify-around items-center'
         onSubmit={handleSubmit(onSubmit)}
-        className='grid space-y-6 h-screen bg-white p-6 rounded-2xl shadow-md grid-cols-1'
       >
         <Typography
           variant='h4'
@@ -121,32 +141,49 @@ export default function BlogForm() {
         <TextField
           {...register("title")}
           label='Post Title'
-          variant='outlined'
-          fullWidth
+          variant='filled'
           error={!!errors.title}
           helperText={errors.title?.message}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <TitleIcon color='action' />
+              </InputAdornment>
+            ),
+          }}
         />
 
-        {/* Content */}
         <TextField
           {...register("content")}
           label='Post Content'
-          variant='outlined'
-          fullWidth
+          variant='filled'
           multiline
-          minRows={4}
+          minRows={5}
           error={!!errors.content}
           helperText={errors.content?.message}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <DescriptionIcon color='action' />
+              </InputAdornment>
+            ),
+          }}
         />
 
         {/* Author */}
         <TextField
           {...register("author")}
           label='Author'
-          variant='outlined'
-          fullWidth
+          variant='filled'
           error={!!errors.author}
           helperText={errors.author?.message}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <PersonIcon color='action' />
+              </InputAdornment>
+            ),
+          }}
         />
 
         {/* Image Upload */}
@@ -157,7 +194,7 @@ export default function BlogForm() {
               htmlFor='image-upload'
               sx={{ fontWeight: 600, color: "text.primary" }}
             >
-              Featured Image
+              Featured Image (optional)
             </InputLabel>
           </Stack>
 
@@ -165,7 +202,7 @@ export default function BlogForm() {
             variant='outlined'
             component='label'
             fullWidth
-            startIcon={<ImageIcon />}
+            startIcon={<PhotoCamera />}
             sx={{
               textTransform: "none",
               borderColor: "#90caf9",
@@ -187,22 +224,27 @@ export default function BlogForm() {
             />
           </Button>
 
+          <Typography color='red' variant='caption'>
+            Allowed: jpg, png, webp, gif — max 10MB
+          </Typography>
+
           {errors.image_url && (
             <FormHelperText error>{errors.image_url.message}</FormHelperText>
           )}
 
           {preview && (
-            <Box sx={{ mt: 2 }}>
-              <img
-                src={preview}
+            <Box
+              sx={{
+                mt: 2,
+                display: "flex",
+                gap: 5,
+                alignItems: "center",
+              }}
+            >
+              <Avatar
+                sx={{ width: 56, height: 56 }}
                 alt='Preview'
-                style={{
-                  width: "100%",
-                  height: "200px",
-                  objectFit: "cover",
-                  borderRadius: "10px",
-                  border: "1px solid #e0e0e0",
-                }}
+                src={preview}
               />
 
               <Button
@@ -238,7 +280,7 @@ export default function BlogForm() {
         )}
 
         {/* Buttons */}
-        <Box className='flex flex-col sm:flex-row gap-4 mt-6'>
+        <Box className='flex flex-col sm:flex-row gap-4 mt-6 w-4/6 px-4'>
           <Button
             type='submit'
             variant='contained'
@@ -264,10 +306,10 @@ export default function BlogForm() {
             Reset
           </Button>
         </Box>
-      </form>
+      </Box>
 
       {/* --- LIVE PREVIEW --- */}
-      <section className='container h-screen bg-gray-50 shadow-sm flex flex-col justify-center items-center text-center gap-4 rounded-2xl'>
+      <Box className='h-screen bg-gray-50 shadow-sm flex flex-col justify-center items-center text-center gap-4 rounded-2xl'>
         <Typography
           variant='h6'
           className='bg-linear-to-r from-yellow-100 to-pink-200 w-4/5 text-gray-800 py-2 flex justify-center gap-2 rounded-md'
@@ -313,7 +355,7 @@ export default function BlogForm() {
             )}
           </Typography>
         </Box>
-      </section>
+      </Box>
     </div>
   );
 }

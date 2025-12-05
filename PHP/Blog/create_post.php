@@ -133,8 +133,7 @@ try {
   }
 
   // Insert post (use prepared statement)
-  $stmt = $pdo->prepare("
-    INSERT INTO posts (title, content, author, image_url, created_at)
+  $stmt = $pdo->prepare("INSERT INTO posts (title, content, author, image_url, created_at)
     VALUES (:title, :content, :author, :image_url, NOW())
   ");
 
